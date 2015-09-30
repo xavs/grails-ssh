@@ -7,7 +7,8 @@ import jodd.io.StreamGobbler
 import static org.apache.commons.lang3.StringEscapeUtils.unescapeJava
 
 /**
- *
+ * Wrapper to simplify SCP/SSH operations via JSCH library
+ * Provides a retry policy to help deal with networking hiccups
  */
 @Slf4j
 class SshClient {
@@ -19,14 +20,14 @@ class SshClient {
   String keyfile  // this will be preferred better than password if populated
   String keypass
 
-  String sshConfigFile
-  String knownHostsFile
+  String sshConfigFile  // optional
+  String knownHostsFile // optional
   String strictHostKeyChecking = "no"
 
   int retries = Holders.config.ssh.defaultRetries ?: 5
   int retryInterval = Holders.config.ssh.defaultRetryInterval ?: 1000 // miliseconds
   int connectionTimeout  // time to wait to get an exception as result of no answer
-  boolean keepAlive = false  // use carefully, it could hog up system resources
+  boolean keepAlive = false  // use 'true' carefully, it could hog up system resources
 
   JSch jsch = new JSch()
   Session session
