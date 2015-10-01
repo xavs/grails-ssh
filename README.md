@@ -36,3 +36,4 @@ ssh.channelSftp
   int connectionTimeout  // time to wait to get an exception as result of no answer
   boolean keepAlive = false  // use 'true' carefully, it could hog up system resources
 ```
+If using keepAlive=true, the session won't be closed after an exec() or a putFile(), etc. This can be useful in terms of performance when a series of operations are to be performed. Be sure you enclose the code within a try{} block and add a finally { ssh.session.disconnect() }
