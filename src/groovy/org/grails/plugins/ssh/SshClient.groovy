@@ -1,4 +1,4 @@
-package org.grails.ssh
+package org.grails.plugins.ssh
 
 import com.jcraft.jsch.*
 import grails.util.Holders
@@ -79,15 +79,13 @@ class SshClient {
 
 
       def result = [ status: channel.exitStatus, stdout: unescapeJava(  out.toString() ), stderror: error.toString()]
-      log.info("[${command}] run at ${this} result: ${result}")
+      log.info "[${command}] run at ${this} result: ${result}"
       return result
-    }
-    catch (JSchException e) {
-      log.error("Error trying to execute command.", e)
+    } catch (JSchException e) {
+      log.error "Error trying to execute command.", e
       throw e
-    }
-    catch (Exception e) {
-      log.error("An unexpected Exception has happened.", e)
+    } catch (Exception e) {
+      log.error "An unexpected Exception has happened.", e
       throw e
     } finally {
       channel?.disconnect()
@@ -116,7 +114,7 @@ class SshClient {
     if ( session?.isConnected() ) { log.trace "session already connected"; return session }
     try {
       if ( knownHostsFile ) {
-        if ( log.traceEnabled ) log.trace("Adding known hosts file ${knownHostsFile} to client.")
+        if ( log.traceEnabled ) log.trace "Adding known hosts file ${knownHostsFile} to client."
         jsch.setKnownHosts( knownHostsFile )
       }
 
@@ -144,7 +142,7 @@ class SshClient {
         session.timeout = connectionTimeout
       }
 
-      if (password) {
+      if ( password ) {
         // If this is not set maybe its a key auth?
         session.setPassword( password )
       }
@@ -154,8 +152,7 @@ class SshClient {
       session.connect()
       log.debug "connected to $this"
       return session
-    }
-    catch (JSchException e) {
+    } catch (JSchException e) {
       log.error( "Failed to create session to host.", e )
       throw e
     }

@@ -13,7 +13,7 @@ class GrailsSshGrailsPlugin {
     def author = "Javier Aladid"
     def authorEmail = "javier.aladid@gmail.com"
     def description = '''\
-Brief summary/description of the plugin.
+Ssh plugin based on jsch. Simplifies use of this library
 '''
 
     // URL to the plugin's documentation
