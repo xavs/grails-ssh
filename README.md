@@ -11,7 +11,8 @@ def ssh = new SshClient( host: "127.0.0.1",
                       keypass: "",
                          user:	"javier"
 )
-ssh.exec( "echo hola" )
+Map result = ssh.exec( "echo hola" )
+// result is a map with keys [status,stdout, stderror]
 ```
 ## For scp operations, there is access to the underlying ChannelSftp
 http://epaul.github.io/jsch-documentation/javadoc/com/jcraft/jsch/ChannelSftp.html
@@ -36,4 +37,4 @@ ssh.channelSftp
   int connectionTimeout  // time to wait to get an exception as result of no answer
   boolean keepAlive = false  // use 'true' carefully, it could hog up system resources
 ```
-If using keepAlive=true, the session won't be closed after an exec() or a putFile(), etc. This can be useful in terms of performance when a series of operations are to be performed. Be sure you enclose the code within a try{} block and add a finally { ssh.session.disconnect() }
+If using keepAlive=true, the session won't be closed after an exec() or a putFile(), etc. This can be useful in terms of performance when a series of operations are to be performed. Be sure you enclose the code within a try{} block and add a finally { sshClient.session.disconnect() }
